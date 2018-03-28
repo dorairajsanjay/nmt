@@ -1,3 +1,48 @@
+# This is a adaptation of the NMT Tutorial by Luong et al @Google Brain for Text summarization.
+
+Follow along this notebook in the root folder for information on parsing and converting the CNN dataset into a form that can be confused by this code
+
+loading_cnn_dataset.ipynb
+
+In order do the training for the basic seq2seq model, you would need to only alter the below commands
+
+Note: I changed the default number of layers 1 to deal with out of memory errors since the CNN dataset vocab is much larger than the default one used for the English<->Vietnamese translation.
+
+python -m nmt.nmt \
+    --src=in --tgt=out \
+    --vocab_prefix="/tmp/tldr/tldr_data/vocab" \
+    --train_prefix="/tmp/tldr/tldr_data/train" \
+    --dev_prefix="/tmp/tldr/tldr_data/dev"  \
+    --test_prefix="/tmp/tldr/tldr_data/test" \
+    --out_dir="/tmp/tldr/tldr_model" \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=1 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --metrics=bleu
+
+You can run the attention model in a similar way
+
+python -m nmt.nmt \
+    --attention=scaled_luong \
+    --src=in --tgt=out \
+    --vocab_prefix="/tmp/tldr/tldr_data/vocab" \
+    --train_prefix="/tmp/tldr/tldr_data/train" \
+    --dev_prefix="/tmp/tldr/tldr_data/dev"  \
+    --test_prefix="/tmp/tldr/tldr_data/test" \
+    --out_dir="/tmp/tldr/tldr_model" \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --metrics=bleu
+    
+
+Inference is similar to what is mentioned in subsequent steps
+
+
 # Neural Machine Translation (seq2seq) Tutorial
 
 *Authors: Thang Luong, Eugene Brevdo, Rui Zhao ([Google Research Blogpost](https://research.googleblog.com/2017/07/building-your-own-neural-machine.html), [Github](https://github.com/tensorflow/nmt))*
