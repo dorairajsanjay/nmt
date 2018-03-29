@@ -46,7 +46,7 @@ python -m nmt.nmt \
     --metrics=bleu \
     --batch_size=16
     
-## Attention
+## Inference
     
 Inference is similar to what is mentioned in subsequent steps
 
