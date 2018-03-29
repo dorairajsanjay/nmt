@@ -10,11 +10,11 @@ Note: I changed the default number of layers 1 to deal with out of memory errors
 
 python -m nmt.nmt \
     --src=in --tgt=out \
-    --vocab_prefix="/tmp/tldr/tldr_data/vocab" \
-    --train_prefix="/tmp/tldr/tldr_data/train" \
-    --dev_prefix="/tmp/tldr/tldr_data/dev"  \
-    --test_prefix="/tmp/tldr/tldr_data/test" \
-    --out_dir="/tmp/tldr/tldr_model" \
+    --vocab_prefix="/tmp/mnt_fork/tldr_data/vocab" \
+    --train_prefix="/tmp/mnt_fork/tldr_data/train" \
+    --dev_prefix="/tmp/mnt_fork/tldr_data/dev"  \
+    --test_prefix="/tmp/mnt_fork/tldr_data/test" \
+    --out_dir="/tmp/mnt_fork/tldr_model" \
     --num_train_steps=12000 \
     --steps_per_stats=100 \
     --num_layers=1 \
@@ -22,25 +22,43 @@ python -m nmt.nmt \
     --dropout=0.2 \
     --metrics=bleu
 
-You can run the attention model in a similar way
+You can run the attention model in a similar way. Note that I had to change several of the parameters to ensure that I did not run into any out of memory issues.
 
 python -m nmt.nmt \
     --attention=scaled_luong \
     --src=in --tgt=out \
-    --vocab_prefix="/tmp/tldr/tldr_data/vocab" \
-    --train_prefix="/tmp/tldr/tldr_data/train" \
-    --dev_prefix="/tmp/tldr/tldr_data/dev"  \
-    --test_prefix="/tmp/tldr/tldr_data/test" \
-    --out_dir="/tmp/tldr/tldr_model" \
+    --vocab_prefix="/tmp/mnt_fork/tldr_data/vocab" \
+    --train_prefix="/tmp/mnt_fork/tldr_data/train" \
+    --dev_prefix="/tmp/mnt_fork/tldr_data/dev"  \
+    --test_prefix="/tmp/mnt_fork/tldr_data/test" \
+    --out_dir="/tmp/mnt_fork/tldr_attention_model" \
     --num_train_steps=12000 \
     --steps_per_stats=100 \
-    --num_layers=2 \
-    --num_units=128 \
+    --num_layers=1 \
+    --num_units=64 \
     --dropout=0.2 \
-    --metrics=bleu
+    --metrics=bleu \
+    --batch_size=16
     
-
 Inference is similar to what is mentioned in subsequent steps
+
+python -m nmt.nmt \
+    --src=in --tgt=out \
+    --vocab_prefix=/tmp/tldr/tldr_data/vocab  \
+    --out_dir=/tmp/mnt_fork/tldr_attention_model \
+    --inference_input_file=/tmp/mnt_fork/tldr_data/infer.in \
+    --inference_output_file=/tmp/mnt_fork/tldr_data/infer.out
+    
+These are the preliminary summaries I got with the attention model...
+
+(tensorflow_p36plus) ubuntu@ip-172-31-16-7:~/dev/nmt_fork/nmt$ cat /tmp/mnt_fork/tldr_data/infer.out
+new the us has a <unk> <unk> in the world
+new police say they have been shot in a new york city
+new the us says he is a new york city
+new the <unk> <unk> <unk> <unk> and <unk> <unk>
+new the us attorneys are investigating a new york city
+    
+...they dont' make a lot of sense and hav ethe usually issues like repetition and the presence of unknowns. Pointer genration and coverage handling (https://arxiv.org/abs/1704.04368) should help resolve some of these issues but a big part of the reason for this performance is because of the few iterations, smaller batch size and the fact that I had to use a much smaller vocabulary 20k words relative to >200k in the original CNN dataset. 
 
 ## Exception Handling
 
@@ -58,7 +76,8 @@ awk '!NF {s+=1} END {print s}' train.in
 
 To fix files with empty lines
 
-awk '!NF{$0="empty"}1' train.in > train.in
+awk '!NF{$0="empty"}1' train.in > temp.in
+cp temp.in train.in
 
 See: https://github.com/tensorflow/nmt/issues/210 for more information
 
