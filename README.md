@@ -8,6 +8,8 @@ In order do the training for the basic seq2seq model, you would need to only alt
 
 Note: I changed the default number of layers 1 to deal with out of memory errors since the CNN dataset vocab is much larger than the default one used for the English<->Vietnamese translation.
 
+## Seq2Seq model without attention
+
 python -m nmt.nmt \
     --src=in --tgt=out \
     --vocab_prefix="/tmp/mnt_fork/tldr_data/vocab" \
@@ -24,6 +26,8 @@ python -m nmt.nmt \
 
 You can run the attention model in a similar way. Note that I had to change several of the parameters to ensure that I did not run into any out of memory issues.
 
+## Seq2Seq model with attention
+
 python -m nmt.nmt \
     --attention=scaled_luong \
     --src=in --tgt=out \
@@ -39,6 +43,8 @@ python -m nmt.nmt \
     --dropout=0.2 \
     --metrics=bleu \
     --batch_size=16
+    
+## Attention
     
 Inference is similar to what is mentioned in subsequent steps
 
@@ -61,6 +67,17 @@ cat /tmp/mnt_fork/tldr_data/infer.out
 5. new the us attorneys are investigating a new york city
     
 ...they dont' make a lot of sense and hav ethe usually issues like repetition and the presence of unknowns. Pointer genration and coverage handling (https://arxiv.org/abs/1704.04368) should help resolve some of these issues but a big part of the reason for this performance is because of the few iterations, smaller batch size and the fact that I had to use a much smaller vocabulary 20k words relative to >200k in the original CNN dataset. 
+
+## Note on CNN Dataset
+
+Please see processing of CNN dataset. I followed the below steps
+
+1. Obtained CNN dataset from https://cs.nyu.edu/~kcho/DMQA/
+2. Downloaded all stories. 
+3. Process the stories in the notebook - loading_cnn_dataset.ipynb
+4. Processing mainly involves (a) generating the vocab and (b) generating the training, dev and test data.
+5. I use only the first highlight for summary generation. I was hoping to mature into combined highlights at a later point. The code has support for generating combined highlights and single highlights based on the value of a boolean flag.
+6. For inference, I simply pull a bunch of stories at random from the test set and run it past the model using the steps mentioned above.
 
 ## Exception Handling
 
