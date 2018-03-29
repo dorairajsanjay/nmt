@@ -1,4 +1,6 @@
-# This is a adaptation of the NMT Tutorial by Luong et al @Google Brain for Text summarization.
+# This is an adaptation of the NMT Tutorial by Luong et al @Google Brain for Text summarization. 
+
+I do very little here myself other than converting this from an NMT model to a text summarization model. Most of my work is in prepping the dataset and tweaking parameters till I find a combination that works given the resources I have.
 
 Follow along this notebook in the root folder for information on parsing and converting the CNN dataset into a form that can be confused by this code
 
