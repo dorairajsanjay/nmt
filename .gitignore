@@ -3,3 +3,4 @@ nmt/scripts/__pycache__/
 nmt/utils/__pycache__/
 .ipynb_checkpoints/
 *.pkl
+*.out

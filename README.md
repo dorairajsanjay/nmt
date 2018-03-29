@@ -42,6 +42,30 @@ python -m nmt.nmt \
 
 Inference is similar to what is mentioned in subsequent steps
 
+## Exception Handling
+
+### All values in memory_sequence_length must greater than zero
+
+In case you run into the following error, it is because there are empty lines in your dataset.
+
+InvalidArgumentError (see above for traceback): assertion failed: [All values in memory_sequence_length must greater than zero.] [Condition x > 0 did not hold element-wise:] [x (IteratorGetNext:1) = ] [332 391 637...]
+
+You can fix the issue by running the below commands from your shell
+
+To find files with empty lines:
+
+awk '!NF {s+=1} END {print s}' train.in
+
+To fix files with empty lines
+
+awk '!NF{$0="empty"}1' train.in > train.in
+
+See: https://github.com/tensorflow/nmt/issues/210 for more information
+
+One of the other issues I encountered was that my training input files did not end with a newline. I ran the below commands to do that
+
+echo >> <file_name>
+
 
 # Neural Machine Translation (seq2seq) Tutorial
 
