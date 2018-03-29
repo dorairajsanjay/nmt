@@ -51,12 +51,14 @@ python -m nmt.nmt \
     
 These are the preliminary summaries I got with the attention model...
 
-(tensorflow_p36plus) ubuntu@ip-172-31-16-7:~/dev/nmt_fork/nmt$ cat /tmp/mnt_fork/tldr_data/infer.out
-new the us has a <unk> <unk> in the world
-new police say they have been shot in a new york city
-new the us says he is a new york city
-new the <unk> <unk> <unk> <unk> and <unk> <unk>
-new the us attorneys are investigating a new york city
+(tensorflow_p36plus) ubuntu@ip-172-31-16-7:~/dev/nmt_fork/nmt$ 
+
+cat /tmp/mnt_fork/tldr_data/infer.out
+1. new the us has a <unk> <unk> in the world
+2. new police say they have been shot in a new york city
+3. new the us says he is a new york city
+4. new the <unk> <unk> <unk> <unk> and <unk> <unk>
+5. new the us attorneys are investigating a new york city
     
 ...they dont' make a lot of sense and hav ethe usually issues like repetition and the presence of unknowns. Pointer genration and coverage handling (https://arxiv.org/abs/1704.04368) should help resolve some of these issues but a big part of the reason for this performance is because of the few iterations, smaller batch size and the fact that I had to use a much smaller vocabulary 20k words relative to >200k in the original CNN dataset. 
 
