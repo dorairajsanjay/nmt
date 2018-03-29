@@ -91,6 +91,14 @@ InvalidArgumentError (see above for traceback): assertion failed: [All values in
 
 I addressed this issue by adding logic to the dataset generation code to remove any empty lines. 
 
+## Things to try
+
+Given resources and time you could try the following to improve performance
+
+1. Increase the size of vocabulary. This can be done in the notebook loading_cnn_dataset.ipynb
+2. Increase the size of the training data to also include Daily Mail summaries. I only use the CNN dataset. It should be possible to tweak loading_cnn_dataset.ipynb to support this.
+3. Increase batch size, steps, number of LSTM layers, number of LSTM hidden units.
+
 
 # Neural Machine Translation (seq2seq) Tutorial
 
