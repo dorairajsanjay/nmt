@@ -68,7 +68,7 @@ cat /tmp/mnt_fork/tldr_data/infer.out
 4. new the <unk> <unk> <unk> <unk> and <unk> <unk>
 5. new the us attorneys are investigating a new york city
     
-...they dont' make a lot of sense and hav ethe usually issues like repetition and the presence of unknowns. Pointer genration and coverage handling (https://arxiv.org/abs/1704.04368) should help resolve some of these issues but a big part of the reason for this performance is because of the few iterations, smaller batch size and the fact that I had to use a much smaller vocabulary 20k words relative to >200k in the original CNN dataset. 
+...they dont' make a lot of sense and have the usually issues like repetition and the presence of a a large number of <unk>s. Pointer genration and coverage handling (https://arxiv.org/abs/1704.04368) should help resolve some of these issues but a big part of the reason for this performance is because of the few iterations, smaller batch size and the fact that I had to use a much smaller vocabulary 20k words relative to >200k in the original CNN dataset. 
 
 ## Note on CNN Dataset
 
